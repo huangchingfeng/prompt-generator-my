@@ -14629,7 +14629,8 @@ KOL 名称或定位（例如：科技类 YouTuber）：<<<{KOL名称或定位}>>
     touched.add(n);
   }
   function trAttrs(el){
-    if(isSkipped(el)) return;
+    // 輸入框本身在 SKIP 裡（使用者打的字不翻），但它的 placeholder 要翻 → 從父層判斷（2026-10-25 搜尋框提示字一直是中文）
+    if(isSkipped((el.tagName==='INPUT'||el.tagName==='TEXTAREA') ? el.parentElement : el)) return;
     for(const a of ATTRS){
       const v = el.getAttribute(a); if(!v || !CJK.test(v)) continue;
       let m = orig.get(el); if(!m){ m = {}; orig.set(el, m); }
